@@ -77,116 +77,116 @@ def IsPowerOfTwo(x):
   return (x != 0) and ((x & (x - 1)) == 0)
 
 def split(m):
-  littleN = int(len(m)/2)
-  m11 = []
-  m12 = []
-  m21 = []
-  m22 = []
-  for i in range(littleN):
-    tempArr11 = []
-    tempArr12 = []
-    tempArr21 = []
-    tempArr22 = []
-    for j in range(littleN):
-      tempArr11.append(m[i          ][j          ])
-      tempArr12.append(m[i          ][j + littleN])
-      tempArr21.append(m[i + littleN][j          ])
-      tempArr22.append(m[i + littleN][j + littleN])
-    m11.append(tempArr11)
-    m12.append(tempArr12)
-    m21.append(tempArr21)
-    m22.append(tempArr22)
+    littleN = int(len(m)/2)
+    m11 = []
+    m12 = []
+    m21 = []
+    m22 = []
+    for i in range(littleN):
+        tempArr11 = []
+        tempArr12 = []
+        tempArr21 = []
+        tempArr22 = []
+        for j in range(littleN):
+            tempArr11.append(m[i          ][j          ])
+            tempArr12.append(m[i          ][j + littleN])
+            tempArr21.append(m[i + littleN][j          ])
+            tempArr22.append(m[i + littleN][j + littleN])
+        m11.append(tempArr11)
+        m12.append(tempArr12)
+        m21.append(tempArr21)
+        m22.append(tempArr22)
 
-  return m11, m12, m21, m22
+    return m11, m12, m21, m22
 
 def addM(mA,mB):
-  N = len(mA)
+    N = len(mA)
 
-  mC = []
+    mC = []
 
-  for i in range(N):
-    tempArr = []
-    for j in range(N):
-      tempArr.append(int(mA[i][j]) + int(mB[i][j]))
-    mC.append(tempArr)
-      
-  return mC
+    for i in range(N):
+        tempArr = []
+        for j in range(N):
+            tempArr.append(int(mA[i][j]) + int(mB[i][j]))
+        mC.append(tempArr)
+        
+    return mC
 
 def subM(mA,mB):
-  N = len(mA)
+    N = len(mA)
 
-  mC = []
+    mC = []
 
-  for i in range(N):
-    tempArr = []
-    for j in range(N):
-      tempArr.append(int(mA[i][j]) - int(mB[i][j]))
-    mC.append(tempArr)
+    for i in range(N):
+        tempArr = []
+        for j in range(N):
+            tempArr.append(int(mA[i][j]) - int(mB[i][j]))
+        mC.append(tempArr)
 
-  return mC
+    return mC
 
 def strassenMult(mA,mB):
-  N = len(mA)
-  
-  if N == 1:
-    return [[int(mA[0][0]) * int(mB[0][0])]]
-  
-  padding = False
-  oldN = N
-  if IsPowerOfTwo(N) == False:
-    padding = True
+    N = len(mA)
+    
+    if N == 1:
+        return [[int(mA[0][0]) * int(mB[0][0])]]
+    
+    padding = False
+    oldN = N
+    if IsPowerOfTwo(N) == False:
+        padding = True
 
-    nextN = 1
-    while(nextN < N):
-      nextN*=2;
-  
-    newMA = [[0 for i in range(nextN)] for i in range(nextN)]
-    newMB = [[0 for i in range(nextN)] for i in range(nextN)]
-    for i in range(N):
-      for j in range(N):
-        newMA[i][j] = mA[i][j]
-        newMB[i][j] = mB[i][j]
+        nextN = 1
+        while(nextN < N):
+            nextN*=2;
+    
+        newMA = [[0 for i in range(nextN)] for i in range(nextN)]
+        newMB = [[0 for i in range(nextN)] for i in range(nextN)]
+        for i in range(N):
+            for j in range(N):
+                newMA[i][j] = mA[i][j]
+                newMB[i][j] = mB[i][j]
 
-    N = nextN
-    mA = newMA
-    mB = newMB
+        N = nextN
+        mA = newMA
+        mB = newMB
 
-  mA11,mA12,mA21,mA22 = split(mA)
-  mB11,mB12,mB21,mB22 = split(mB)
+    mA11,mA12,mA21,mA22 = split(mA)
+    mB11,mB12,mB21,mB22 = split(mB)
 
 
-  p1 = strassenMult(mA11           , subM(mB12,mB22))
-  p2 = strassenMult(addM(mA11,mA12), mB22           )
-  p3 = strassenMult(addM(mA21,mA22), mB11           )
-  p4 = strassenMult(mA22           , subM(mB21,mB11))
-  p5 = strassenMult(addM(mA11,mA22), addM(mB11,mB22))
-  p6 = strassenMult(subM(mA12,mA22), addM(mB21,mB22))
-  p7 = strassenMult(subM(mA21,mA11), addM(mB11,mB12))
+    p1 = strassenMult(mA11           , subM(mB12,mB22))
+    p2 = strassenMult(addM(mA11,mA12), mB22           )
+    p3 = strassenMult(addM(mA21,mA22), mB11           )
+    p4 = strassenMult(mA22           , subM(mB21,mB11))
+    p5 = strassenMult(addM(mA11,mA22), addM(mB11,mB22))
+    p6 = strassenMult(subM(mA12,mA22), addM(mB21,mB22))
+    p7 = strassenMult(subM(mA21,mA11), addM(mB11,mB12))
 
-  mC11 = addM(subM(addM(p5,p4),p2),p6)
-  mC12 = addM(p1,p2)
-  mC21 = addM(p3,p4)
-  mC22 = addM(subM(addM(p1,p5),p3),p7)
+    mC11 = addM(subM(addM(p5,p4),p2),p6)
+    mC12 = addM(p1,p2)
+    mC21 = addM(p3,p4)
+    mC22 = addM(subM(addM(p1,p5),p3),p7)
 
-  mC = [[0 for i in range(N)] for i in range(N)]
+    mC = [[0] * N] * N
 
-  littleN = int(N/2)
-  for i in range(littleN):
-    for j in range(littleN):
-      mC[i          ][j          ] = mC11[i][j]
-      mC[i          ][j + littleN] = mC12[i][j]
-      mC[i + littleN][j          ] = mC21[i][j]
-      mC[i + littleN][j + littleN] = mC22[i][j]
+    littleN = int(N/2)
+    for i in range(littleN):
+        for j in range(littleN):
+            mC[i          ][j          ] = mC11[i][j]
+            mC[i          ][j + littleN] = mC12[i][j]
+            mC[i + littleN][j          ] = mC21[i][j]
+            mC[i + littleN][j + littleN] = mC22[i][j]
 
-  if padding:
-    newC = [[0 for i in range(oldN)] for i in range(oldN)]
-    for i in range(oldN):
-      for j in range(oldN):
-        newC[i][j] = mC[i][j]
-    mC = newC
-  t4 = time.time()
-  elapsedTime2 = t4-t3
-  return mC
+    if padding:
+        newC = [[0 for i in range(oldN)] for i in range(oldN)]
+        for i in range(oldN):
+            for j in range(oldN):
+                newC[i][j] = mC[i][j]
+        mC = newC
+    t4 = time.time()
+    elapsedTime2 = t4-t3
+    return mC
 ################################################################################################################################################################
 try:
     configFile = open('./Config/config.txt', 'r')
@@ -219,17 +219,17 @@ while True:
         generateMatriz()
     elif option == 2:
         result = calculateProduct()
-        print(result[0])
-        for i in range(15):
-            print()
+        # print(result[0])
+        # for i in range(15):
+        #     print()
         tempo1 = result[1]
     elif option == 3:
         t3 = time.time()
         result = strassenMult(matrizA,matrizB)
         t4 = time.time()
-        print(result)
-        for i in range(15):
-            print()
+        # print(result)
+        # for i in range(15):
+        #     print()
         tempo2 = t4-t3
     elif option == 4:
         print('Para matrizes de tamanho {} x {}, o tempo gasto foi de \n'.format(len(matrizA), len(matrizB)))
@@ -241,6 +241,7 @@ while True:
             print('\nO algoritmo 1 foi mais rapido.')
         else:
             print('Os dois algoritmos tiveram o mesmo tempo.')
+        break
     elif option == 5:
         print('Encerramento solicitado pelo usuario.')
         break
