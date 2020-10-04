@@ -78,39 +78,51 @@ def IsPowerOfTwo(x):
 
 def split(m):
   littleN = int(len(m)/2)
-  m11 = [[0 for x in range(littleN)] for x in range(littleN)]
-  m12 = [[0 for x in range(littleN)] for x in range(littleN)]
-  m21 = [[0 for x in range(littleN)] for x in range(littleN)]
-  m22 = [[0 for x in range(littleN)] for x in range(littleN)]
+  m11 = []
+  m12 = []
+  m21 = []
+  m22 = []
   for i in range(littleN):
+    tempArr11 = []
+    tempArr12 = []
+    tempArr21 = []
+    tempArr22 = []
     for j in range(littleN):
-      m11[i][j] = m[i          ][j          ]
-      m12[i][j] = m[i          ][j + littleN]
-      m21[i][j] = m[i + littleN][j          ]
-      m22[i][j] = m[i + littleN][j + littleN]
+      tempArr11.append(m[i          ][j          ])
+      tempArr12.append(m[i          ][j + littleN])
+      tempArr21.append(m[i + littleN][j          ])
+      tempArr22.append(m[i + littleN][j + littleN])
+    m11.append(tempArr11)
+    m12.append(tempArr12)
+    m21.append(tempArr21)
+    m22.append(tempArr22)
 
   return m11, m12, m21, m22
 
 def addM(mA,mB):
   N = len(mA)
 
-  mC = [[0 for x in range(N)] for x in range(N)]
+  mC = []
 
   for i in range(N):
+    tempArr = []
     for j in range(N):
-      mC[i][j] = int(mA[i][j]) + int(mB[i][j])
+      tempArr.append(int(mA[i][j]) + int(mB[i][j]))
+    mC.append(tempArr)
       
   return mC
 
 def subM(mA,mB):
   N = len(mA)
 
-  mC = [[0 for i in range(N)] for i in range(N)]
+  mC = []
 
   for i in range(N):
+    tempArr = []
     for j in range(N):
-      mC[i][j] = int(mA[i][j]) - int(mB[i][j])
-      
+      tempArr.append(int(mA[i][j]) - int(mB[i][j]))
+    mC.append(tempArr)
+
   return mC
 
 def strassenMult(mA,mB):
