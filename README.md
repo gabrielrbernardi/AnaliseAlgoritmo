@@ -6,7 +6,7 @@ Nosso algoritmo faz a comparação do tempo de execução entre código de multi
 # Entradas
 
 Menu inicial: 
-```
+```c
 menuString = 'Opcoes:' + '\n'
 
 menuString += ' 1 - Gerar matrizes aleatorias' + '\n'
