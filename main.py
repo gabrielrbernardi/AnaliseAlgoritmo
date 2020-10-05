@@ -59,7 +59,6 @@ def calculateProduct():
     linhasB, colunasB = len(matrizB), len(matrizB[0])
 
     matriz3 = []
-    print('Calculando o produto...')
     t0 = time.time()
     for i in range(linhasA):
         matriz3.append([])
@@ -184,8 +183,6 @@ def strassenMult(mA,mB):
             for j in range(oldN):
                 newC[i][j] = mC[i][j]
         mC = newC
-    t4 = time.time()
-    elapsedTime2 = t4-t3
     return mC
 ################################################################################################################################################################
 try:
@@ -212,24 +209,19 @@ while True:
     menuString += ' 2 - Calcular produto entre as matrizes' + '\n'
     menuString += ' 3 - Calcular produto Strassen' + '\n'
     menuString += ' 4 - Imprime tempos' + '\n'
-    menuString += ' 5 - Sair' + '\n'
+    menuString += ' 5 - Executar calculo dos produtos 30 vezes' + '\n'
+    menuString += ' 6 - Sair' + '\n'
     print(menuString)
     option = int(input(">> "))
     if option == 1:
         generateMatriz()
     elif option == 2:
         result = calculateProduct()
-        # print(result[0])
-        # for i in range(15):
-        #     print()
         tempo1 = result[1]
     elif option == 3:
         t3 = time.time()
         result = strassenMult(matrizA,matrizB)
         t4 = time.time()
-        # print(result)
-        # for i in range(15):
-        #     print()
         tempo2 = t4-t3
     elif option == 4:
         print('Para matrizes de tamanho {} x {}, o tempo gasto foi de \n'.format(len(matrizA), len(matrizB)))
@@ -243,6 +235,35 @@ while True:
             print('Os dois algoritmos tiveram o mesmo tempo.')
         break
     elif option == 5:
+        print('Executando teste para matrizes 128 x 128, 30 vezes')
+        tempoAlg1 = []
+        tempoAlg2 = []
+        readFileMatrix()
+
+        for i in range(30):
+            print('Calculando o produto 1...')
+            t01 = time.time()
+            result = calculateProduct()
+            t02 = time.time()
+            tempoAlg1.append(t02-t01)
+            print('Calculando o produto 2...')
+            t03 = time.time()
+            result = strassenMult(matrizA,matrizB)
+            t04 = time.time()
+            tempoAlg2.append(t04-t03)
+            print(i)
+        arquivoSaidaTempo = open('./Data/tempo.txt', 'w')
+        stringTempo1 = ''
+        stringTempo2 = ''
+        concatStringTempo = ''
+        for i in range(len(tempoAlg1)):
+            stringTempo1 += str(tempoAlg1[i]) + '\n'
+        for i in range(len(tempoAlg2)):
+            stringTempo2 += str(tempoAlg2[i]) + '\n'
+        concatStringTempo = stringTempo1 + '\n\n\n\n' + stringTempo2
+        arquivoSaidaTempo.write(concatStringTempo)
+        arquivoSaidaTempo.close()
+    elif option == 6:
         print('Encerramento solicitado pelo usuario.')
         break
     else:
